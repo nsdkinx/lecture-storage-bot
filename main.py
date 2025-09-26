@@ -2,6 +2,7 @@ import asyncio
 import logging
 import sys
 import io
+import os
 
 from PIL import Image
 from aiogram import Bot, Dispatcher, Router, F
@@ -9,10 +10,10 @@ from aiogram.types import Message, ReactionTypeEmoji
 
 from lecture_storage.core.lecture import Lecture
 from lecture_storage.database.repository import LectureRepository
-from lecture_storage.database.engine import async_session, init_db, get_db
+from lecture_storage.database.engine import init_db, get_db
 
-BOT_TOKEN = "8420213197:AAFdy49bBCzZ6rkBUV5yeGMenk_sweaiSh4"  # 👈 Укажите ваш токен
-CHANNEL_ID = -1003025679452
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+CHANNEL_ID = os.environ.get('CHANNEL_ID')
 
 date_format = '%d.%m.%Y %H:%M:%S'
 logging_format = '[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s'
@@ -39,7 +40,6 @@ async def process_text_message(text: str):
 
 
 async def process_image(image: Image.Image, subtitle: str):
-    """Абстрактная функция для обработки изображения и подписи."""
     print("Получено изображение с подписью:", subtitle)
 
 channel_router = Router()
